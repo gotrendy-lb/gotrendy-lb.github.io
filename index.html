@@ -18,6 +18,12 @@
     .links a { color: #FFD700; margin: 0 20px; text-decoration: none; font-size: 15px; }
     footer { text-align: center; padding: 30px; color: #555; font-size: 13px; border-top: 1px solid #222; }
   </style>
+  <script>
+    // Handle TikTok OAuth callback redirect
+    if (window.location.search.includes('code=') || window.location.search.includes('error=')) {
+      window.location.href = '/tiktok-callback.html' + window.location.search;
+    }
+  </script>
 </head>
 <body>
   <header>

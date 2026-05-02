@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TikTok Authorization – GoTrendy.lb</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: #ddd; padding: 40px 20px; max-width: 800px; margin: 0 auto; text-align: center; }
+    h1 { color: #FFD700; margin-bottom: 24px; font-size: 28px; }
+    .code-box { background: #1a1a1a; border: 2px solid #FFD700; border-radius: 12px; padding: 20px; margin: 20px 0; word-break: break-all; font-family: monospace; font-size: 14px; color: #00ff88; }
+    .status { font-size: 18px; margin: 20px 0; }
+    .error { color: #ff4444; }
+    .success { color: #00ff88; }
+    button { background: #FFD700; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px; }
+  </style>
+</head>
+<body>
+  <h1>🎵 TikTok Authorization</h1>
+  <div id="status" class="status">Processing...</div>
+  <div id="code-display"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const error = params.get('error');
+    const state = params.get('state');
+
+    const statusEl = document.getElementById('status');
+    const codeEl = document.getElementById('code-display');
+
+    if (error) {
+      statusEl.innerHTML = '<span class="error">❌ Authorization failed: ' + error + '</span>';
+      codeEl.innerHTML = '<p>' + (params.get('error_description') || '') + '</p>';
+    } else if (code) {
+      statusEl.innerHTML = '<span class="success">✅ Authorization successful! Copy the code below and send it to Manus.</span>';
+      codeEl.innerHTML = '<div class="code-box"><strong>Authorization Code:</strong><br><br>' + code + '</div>' +
+        '<button onclick="copyCode()">📋 Copy Code</button>';
+      
+      function copyCode() {
+        navigator.clipboard.writeText(code).then(() => {
+          alert('Code copied! Send it to Manus.');
+        });
+      }
+    } else {
+      statusEl.innerHTML = '<span class="error">No authorization code found in URL.</span>';
+      codeEl.innerHTML = '<p>URL: ' + window.location.href + '</p>';
+    }
+  </script>
+</body>
+</html>
